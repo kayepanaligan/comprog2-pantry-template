@@ -1,18 +1,24 @@
-import static org.junit.Assert.*;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class PantryTest {
     @Test
-    public void testRestock() {
+    public void testRestockLogic() {
         PantryManager pm = new PantryManager();
-        assertTrue("Should allow restocking", pm.restockItem(0, 5));
-        assertFalse("Should block overfilling", pm.restockItem(0, 50));
+        // Test 1: Restocking within limits
+        assertTrue("Restock should return true for small amounts", pm.restockItem(0, 5));
+        
+        // Test 2: Overfilling (Initial 2 + 50 > 20)
+        assertFalse("Restock should return false if total > 20", pm.restockItem(0, 50));
     }
 
     @Test
-    public void testStatus() {
+    public void testStatusLogic() {
         PantryManager pm = new PantryManager();
-        assertEquals("Critical", pm.checkStatus(4)); // Apples are at 0
-        assertEquals("Low", pm.checkStatus(0));      // Milk is at 2
+        // index 4 is 'Apples' (Initial 0)
+        assertEquals("Critical", pm.checkStatus(4));
+        
+        // index 1 is 'Eggs' (Initial 12)
+        assertEquals("OK", pm.checkStatus(1));
     }
 }
